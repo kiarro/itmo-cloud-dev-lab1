@@ -6,7 +6,7 @@ import com.itmoclouddev.lab1.core.*;
 
 public interface DragonService {
     public Dragon get(long id);
-    public void add(Dragon dragon);
+    public long add(Dragon dragon);
     public void update(long id, Dragon dragon);
     public Dragon delete(long id);
     public Collection<Dragon> getAll();
