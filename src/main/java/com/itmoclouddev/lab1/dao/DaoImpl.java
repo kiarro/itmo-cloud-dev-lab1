@@ -42,11 +42,9 @@ public class DaoImpl implements Dao {
     public Dragon get(long id) throws DaoException, InvalidValueException, NotFoundException {
         try {
             PreparedStatement psGet = connection.prepareStatement(
-                    """
-                            select * from
-                            dragons join caves on dragons.cave_id = caves.cave_id
-                            where dragon_id=?
-                            """);
+                    "select * from" +
+                            "dragons join caves on dragons.cave_id = caves.cave_id" +
+                            "where dragon_id=?");
 
             psGet.setLong(1, id);
             ResultSet rs = psGet.executeQuery();
@@ -78,16 +76,15 @@ public class DaoImpl implements Dao {
     public long add(Dragon dragon) throws DaoException {
         try {
             PreparedStatement psAdd = connection.prepareStatement(
-                    """
-                            with ins1 as (
-                                insert into caves(depth, number_of_treasures)
-                                values (?, ?)
-                                RETURNING cave_id as new_cave_id
-                            )
-                            insert into dragons (name, coordinate_x, coordinate_y, creation_date, creation_date_zone, age, weight, type, character, cave_id)
-                            select ?, ?, ?, ?, ?, ?, ?, ?, ?, new_cave_id from ins1
-                            returning dragon_id
-                            """);
+                            "with ins1 as ("+
+                                "insert into caves(depth, number_of_treasures)"+
+                                "values (?, ?)"+
+                                "RETURNING cave_id as new_cave_id"+
+                            ")"+
+                            "insert into dragons (name, coordinate_x, coordinate_y, creation_date, creation_date_zone, age, weight, type, character, cave_id)"+
+                            "select ?, ?, ?, ?, ?, ?, ?, ?, ?, new_cave_id from ins1"+
+                            "returning dragon_id"
+                            );
             // cave params
             psAdd.setFloat(1, dragon.getCave().getDepth());
             psAdd.setDouble(2, dragon.getCave().getNumberOfTreasures());
