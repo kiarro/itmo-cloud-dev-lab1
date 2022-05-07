@@ -3,17 +3,17 @@ package com.itmoclouddev.lab1.core;
 import java.time.ZonedDateTime;
 
 public class DragonFilter {
-    public Long id;
-    public String name;
-    public Float coordinateX;
-    public Float coordinateY;
-    public ZonedDateTime creationDate;
-    public Long age;
-    public Long weight;
-    public DragonType type;
-    public DragonCharacter character;
-    public Float caveDepth;
-    public Double caveNumberOfTreasures;
+    public Long id = null;
+    public String name = null;
+    public Float coordinateX = null;
+    public Float coordinateY = null;
+    public ZonedDateTime creationDate = null;
+    public Long age = null;
+    public Long weight = null;
+    public DragonType type = null;
+    public DragonCharacter character = null;
+    public Float caveDepth = null;
+    public Double caveNumberOfTreasures = null;
     
     public Long getId() {
         return id;

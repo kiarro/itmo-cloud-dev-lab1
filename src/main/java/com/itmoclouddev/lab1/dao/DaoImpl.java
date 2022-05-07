@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
+
+import javax.inject.Named;
 
 import com.itmoclouddev.lab1.core.Coordinates;
 import com.itmoclouddev.lab1.core.Dragon;
@@ -20,6 +20,7 @@ import com.itmoclouddev.lab1.core.DragonCharacter;
 import com.itmoclouddev.lab1.core.DragonType;
 import com.itmoclouddev.lab1.core.InvalidValueException;
 
+@Named
 public class DaoImpl implements Dao {
     private Connection connection = null;
 
@@ -43,8 +44,8 @@ public class DaoImpl implements Dao {
         try {
             PreparedStatement psGet = connection.prepareStatement(
                     "select * from" +
-                            "dragons join caves on dragons.cave_id = caves.cave_id" +
-                            "where dragon_id=?");
+                            " dragons join caves on dragons.cave_id = caves.cave_id" +
+                            " where dragon_id=?");
 
             psGet.setLong(1, id);
             ResultSet rs = psGet.executeQuery();
@@ -77,14 +78,13 @@ public class DaoImpl implements Dao {
         try {
             PreparedStatement psAdd = connection.prepareStatement(
                     "with ins1 as (" +
-                            "insert into caves(depth, number_of_treasures)" +
-                            "values (?, ?)" +
-                            "RETURNING cave_id as new_cave_id" +
-                            ")" +
-                            "insert into dragons (name, coordinate_x, coordinate_y, creation_date, creation_date_zone, age, weight, type, character, cave_id)"
-                            +
-                            "select ?, ?, ?, ?, ?, ?, ?, ?, ?, new_cave_id from ins1" +
-                            "returning dragon_id");
+                            " insert into caves(depth, number_of_treasures)" +
+                            " values (?, ?)" +
+                            " RETURNING cave_id as new_cave_id" +
+                            " )" +
+                            " insert into dragons (name, coordinate_x, coordinate_y, creation_date, creation_date_zone, age, weight, type, character, cave_id)"+
+                            " select ?, ?, ?, ?, ?, ?, ?, ?, ?, new_cave_id from ins1" +
+                            " returning dragon_id");
             // cave params
             psAdd.setFloat(1, dragon.getCave().getDepth());
             psAdd.setDouble(2, dragon.getCave().getNumberOfTreasures());
@@ -113,15 +113,15 @@ public class DaoImpl implements Dao {
         try {
             PreparedStatement psUpdate = connection.prepareStatement(
                     "with upd1 as (" +
-                            "update dragons" +
-                            "set name=?, coordinate_x=?, coordinate_y=?," +
-                            "age=?, weight=?, type=?, character=?" +
-                            "where dragon_id=?" +
-                            "returning cave_id as cave_id" +
-                            ")" +
-                            "update caves" +
-                            "set depth=?, number_of_treasures=?" +
-                            "where cave_id in (SELECT cave_id from upd1)");
+                            " update dragons" +
+                            " set name=?, coordinate_x=?, coordinate_y=?," +
+                            " age=?, weight=?, type=?, character=?" +
+                            " where dragon_id=?" +
+                            " returning cave_id as cave_id" +
+                            " )" +
+                            " update caves" +
+                            " set depth=?, number_of_treasures=?" +
+                            " where cave_id in (SELECT cave_id from upd1)");
 
             psUpdate.setString(1, dragon.getName());
             psUpdate.setFloat(2, dragon.getCoordinates().getX());
@@ -148,18 +148,18 @@ public class DaoImpl implements Dao {
         try {
             PreparedStatement psDelete = connection.prepareStatement(
                     
-                            "with del1 as ("+
-                                "delete from dragons"+
-                                "where dragon_id=?"+
-                                "returning *"+
-                            ")"+
-                            ", del2 as ("+
-                                "delete from caves"+
-                                "where cave_id in (select cave_id from del1)"+
-                                "returning *"+
-                            ")"+
-                            "select * from del1 join del2"+
-                            "on del1.cave_id = del2.cave_id"
+                            " with del1 as ("+
+                                " delete from dragons"+
+                                " where dragon_id=?"+
+                                " returning *"+
+                            " )"+
+                            " , del2 as ("+
+                                " delete from caves"+
+                                " where cave_id in (select cave_id from del1)"+
+                                " returning *"+
+                            " )"+
+                            " select * from del1 join del2"+
+                            " on del1.cave_id = del2.cave_id"
                             );
 
             psDelete.setLong(1, id);
@@ -195,9 +195,8 @@ public class DaoImpl implements Dao {
 
         try {
             PreparedStatement psGetAll = connection.prepareStatement(
-                    
                             "select * from"+
-                            "dragons join caves on dragons.cave_id = caves.cave_id"
+                            " dragons join caves on dragons.cave_id = caves.cave_id"
                             );
 
             ResultSet rs = psGetAll.executeQuery();

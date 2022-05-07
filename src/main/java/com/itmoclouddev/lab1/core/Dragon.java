@@ -2,6 +2,7 @@ package com.itmoclouddev.lab1.core;
 
 import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 
 public class Dragon {
+    
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -19,6 +21,7 @@ public class Dragon {
     private DragonCharacter character; //Поле может быть null
     private DragonCave cave; //Поле не может быть null
 
+    @JsonCreator
     public Dragon(String name, Coordinates coordinates, long age, long weight, DragonType type,
             DragonCharacter character, DragonCave cave) throws InvalidValueException {
         // fill with parameters
