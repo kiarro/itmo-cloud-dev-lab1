@@ -24,4 +24,16 @@ public class Coordinates {
     public void setY(float y) {
         this.y = y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Coordinates)) {
+            return false;
+        }
+        Coordinates coord = (Coordinates) obj;
+        return x == coord.x && y == coord.y;
+    }
 }
