@@ -1,6 +1,6 @@
 # Dragon Base
 
-
+WAR file is [here](https://github.com/kiarro/itmo-cloud-dev-lab1/blob/master/target/dragon.war)
 
 <!-- # Build
 mvn clean package && docker build -t com.lab1/dragon .
