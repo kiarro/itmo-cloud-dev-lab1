@@ -10,8 +10,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.inject.Named;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import com.itmoclouddev.lab1.core.Coordinates;
 import com.itmoclouddev.lab1.core.Dragon;
@@ -22,21 +27,29 @@ import com.itmoclouddev.lab1.core.InvalidValueException;
 
 @Named
 public class DaoImpl implements Dao {
+
     private Connection connection = null;
 
     public DaoImpl() throws DaoException {
 
-        // set connection to postgresql
-        String url = "jdbc:postgresql://localhost:5432/dragon_base";
-        Properties props = new Properties();
-        props.setProperty("user", "dragon");
-        props.setProperty("password", "dragon");
-        props.setProperty("ssl", "false");
         try {
-            this.connection = DriverManager.getConnection(url, props);
+
+            InitialContext ctx = new InitialContext();
+
+            DataSource ds = (DataSource) ctx.lookup("jdbc/postgrespool");
+            connection = ds.getConnection();
+
+            Logger log = Logger.getLogger(DaoImpl.class.getName());
+            log.info("--------\n----------\n------------\n\n" + (ds == null)
+                    + "\n\n--------------\n------------\n-----------\n---------");
+
         } catch (SQLException e) {
             throw new DaoException("Error in establishing database connection", e);
+        } catch (NamingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
     }
 
     @Override

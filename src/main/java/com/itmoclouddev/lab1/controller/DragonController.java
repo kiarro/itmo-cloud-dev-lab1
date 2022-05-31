@@ -47,7 +47,7 @@ public class DragonController {
 
     @GetMapping("/test")
     public String getTestMessage() {
-        return "This is test message";
+        return "This is test message from dragons";
     }
 
     @GetMapping("/{id}")
