@@ -39,10 +39,6 @@ public class DaoImpl implements Dao {
             DataSource ds = (DataSource) ctx.lookup("jdbc/postgrespool");
             connection = ds.getConnection();
 
-            Logger log = Logger.getLogger(DaoImpl.class.getName());
-            log.info("--------\n----------\n------------\n\n" + (ds == null)
-                    + "\n\n--------------\n------------\n-----------\n---------");
-
         } catch (SQLException e) {
             throw new DaoException("Error in establishing database connection", e);
         } catch (NamingException e) {
